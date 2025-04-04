@@ -83,7 +83,7 @@ function Categoria() {
                 acaoCadastrar, handleChange, novoObjeto, exibirForm, setExibirForm
             }
         }>
-            <Tabela/>
+            <Carregando><Tabela/></Carregando>
             <Formulario />
         </CategoriaContext.Provider>
    )
