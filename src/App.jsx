@@ -4,26 +4,35 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import React from 'react';
 import './App.css';
-import Menu from './components/Menu';
-import Home from './components/Home';
-import Sobre from './components/Sobre';
+import Menu from './componentes/Menu';
+import Home from './componentes/Home';
+import Sobre from './componentes/Sobre';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import Categoria from "./componentes/telas/categoria/Categoria";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Menu />,
-    children : [
+    children: [
       {
-        index : true,
-        element: <Home />},
+        index: true,
+        element: <Home />,
+      },
       {
-        path : '/sobre',
-        element: <Sobre />
-      }
+        path: "/sobre",
+        element: <Sobre />,
+      }     
+      ,
+      {
+        path: "/categorias",
+        element: <Categoria />,
+      }         
     ]
   }
-])
+
+]);
 
 function App() {
   return (
