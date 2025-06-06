@@ -1,20 +1,19 @@
-import { useContext } from 'react'
-import CategoriaContext from './CategoriaContext';
-import Alerta from '../../comuns/Alerta';
-import Table from 'react-bootstrap/Table';
-import { Button } from 'react-bootstrap';
+import { useContext } from "react";
+import Alerta from "../../comuns/Alerta"
+import CategoriaContext from "./CategoriaContext";
+import { Table, Button } from "react-bootstrap";
 
-function Tabela() {
 
-    const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(CategoriaContext);
+function Tabela(){
+    const {alerta, listaObjetos, remover, novoObjeto, editarObjeto} = useContext(CategoriaContext)
 
-    return (
-        <div style={{ padding: '20px' }}>
+    return(
+        <div style={ {padding: '20px'}}>
             <h1>Categorias</h1>
-            <Alerta alerta={alerta} />
+            <Alerta alerta={alerta}/>
             <Button variant="primary" onClick={() => novoObjeto()}>
-                Novo <i className="bi bi-file-earmark-plus"></i>
-            </Button>
+                  Novo <i className="bi bi-file-earmark-plus"></i>
+            </Button>            
             {listaObjetos.length === 0 && <h1>Nenhuma categoria encontrada</h1>}
             {listaObjetos.length > 0 && (
 
@@ -47,8 +46,10 @@ function Tabela() {
                     </tbody>
                 </Table>
             )}
+        
         </div>
     )
+
 }
 
 export default Tabela;

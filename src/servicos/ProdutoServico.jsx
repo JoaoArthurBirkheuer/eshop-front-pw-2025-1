@@ -1,17 +1,5 @@
-export const getCategoriasAPI = async () => {
-    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/categoria`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-    const data = await response.json()
-    return data;
-}
-
-export const getCategoriaPorCodigoAPI = async codigo => {
-    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/categoria/${codigo}`,
+export const getProdutosAPI = async () => {
+    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/produto`,
         {
             method: "GET",
             headers: {
@@ -22,8 +10,20 @@ export const getCategoriaPorCodigoAPI = async codigo => {
     return data;
 }
 
-export const deleteCategoriaPorCodigoAPI = async codigo => {
-    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/categoria/${codigo}`,
+export const getProdutoPorCodigoAPI = async codigo => {
+    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/produto/${codigo}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    const data = await response.json();
+    return data;
+}
+
+export const deleteProdutoPorCodigoAPI = async codigo => {
+    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/produto/${codigo}`,
         {
             method: "DELETE",
             headers: {
@@ -34,12 +34,12 @@ export const deleteCategoriaPorCodigoAPI = async codigo => {
     return data;
 }
 
-export const cadastraCategoriaAPI = async (objeto, metodo) => {
-    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/categoria`, {
+export const cadastraProdutoAPI = async (objeto, metodo) => {
+    const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/produto`, {
         method: metodo,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(objeto),
-    })
+    });
     const data = await response.json();
     return data;
 }

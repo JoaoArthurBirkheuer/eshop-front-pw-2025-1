@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Alerta from '../../comuns/Alerta';
 import CategoriaContext from './CategoriaContext';
 import Button from 'react-bootstrap/Button';
@@ -13,27 +13,12 @@ function Formulario() {
 
     const { objeto, handleChange, acaoCadastrar, alerta, exibirForm, setExibirForm } = useContext(CategoriaContext);
 
-    const [validated, setValidated] = useState(false);
-
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } 
-
-        setValidated(true);
-        if (form.checkValidity() === true) {
-            acaoCadastrar(event);
-        }
-    };
-
     return (
         <Modal show={exibirForm} onHide={() => setExibirForm(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Categoria</Modal.Title>
             </Modal.Header>
-            <Form id="formulario" onSubmit={handleSubmit} noValidate validated={validated}>
+            <form id="formulario" onSubmit={acaoCadastrar}>
                 <Modal.Body>
                     <Container>
                         <Row>
@@ -50,10 +35,6 @@ function Formulario() {
                                     <Form.Control type="text" required name="nome"
                                         value={objeto.nome}
                                         onChange={handleChange} placeholder="Informe o nome" />
-                                    <Form.Control.Feedback>Campo nome OK!</Form.Control.Feedback>
-                                    <Form.Control.Feedback type="invalid">
-                                        Informe o nome
-                                    </Form.Control.Feedback>
                                 </FloatingLabel>
                             </Col>
                         </Row>
@@ -67,7 +48,7 @@ function Formulario() {
                         Salvar  <i className="bi bi-save"></i>
                     </Button>
                 </Modal.Footer>
-            </Form>
+            </form>
         </Modal>
     )
 }

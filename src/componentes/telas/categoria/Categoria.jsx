@@ -1,23 +1,42 @@
-import { useState, useEffect } from 'react';
-import CategoriaContext from './CategoriaContext';
+import { useState, useEffect } from "react";
+import CategoriaContext from "./CategoriaContext";
 import {
-    getCategoriasAPI, getCategoriaPorCodigoAPI,
-    deleteCategoriaPorCodigoAPI, cadastraCategoriaAPI
-} from '../../../servicos/CategoriaServico';
-import Tabela from './Tabela';
-import Formulario from './Formulario'
-import Carregando from '../../comuns/Carregando';
+  getCategoriasAPI,
+  getCategoriaPorCodigoAPI,
+  deleteCategoriaPorCodigoAPI,
+  cadastraCategoriaAPI,
+} from "../../../servicos/CategoriaServico";
+import Tabela from "../categoria/Tabela";
+import Formulario from "./Formulario";
+import { Form } from "react-bootstrap";
 
 function Categoria() {
+  const [alerta, setAlerta] = useState({ status: "", message: "" });
+  const [listaObjetos, setListaObjetos] = useState([]);
 
-    const [alerta, setAlerta] = useState({ status: "", message: "" });
-    const [listaObjetos, setListaObjetos] = useState([]);
-    const [editar, setEditar] = useState(false);
+  const recuperarCategorias = async () => {
+    setListaObjetos(await getCategoriasAPI());
+  };
+
+  const remover = async (codigo) => {
+    if (window.confirm("Deseja remover este objeto?")) {
+      let retornoAPI = await deleteCategoriaPorCodigoAPI(codigo);
+      setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
+      recuperarCategorias();
+    }
+  };
+
+  useEffect(() => {
+    recuperarCategorias();
+  }, []);
+
+  const [editar, setEditar] = useState(false);
+	
     const [exibirForm, setExibirForm] = useState(false);
+	
     const [objeto, setObjeto] = useState({
         codigo: "", nome: "", descricao: "", sigla: ""
-    })   
-    const [carregando, setCarregando] = useState(true);
+    })    
 
     const novoObjeto = () => {
         setEditar(false);
@@ -49,7 +68,7 @@ function Categoria() {
         } catch (err) {
             console.error(err.message);
         }
-        recuperaCategorias();
+        recuperarCategorias();
     }
 
     const handleChange = (e) => {
@@ -58,35 +77,17 @@ function Categoria() {
         setObjeto({ ...objeto, [name]: value });
     }
 
-    const recuperaCategorias = async () => {
-        setCarregando(true);
-        setListaObjetos(await getCategoriasAPI());
-        setCarregando(false);
-    }
-
-    const remover = async codigo => {
-        if (window.confirm('Deseja remover este objeto?')) {
-            let retornoAPI = await deleteCategoriaPorCodigoAPI(codigo);
-            setAlerta({ status: retornoAPI.status, message: retornoAPI.message })
-            recuperaCategorias();
+  return  (
+    <CategoriaContext.Provider value={
+        {
+            listaObjetos, alerta, remover, objeto, editarObjeto,
+            acaoCadastrar, handleChange, novoObjeto, exibirForm
         }
-    }
-
-    useEffect(() => {
-        recuperaCategorias();
-    }, []);
-
-    return (
-		<CategoriaContext.Provider value={
-            {
-                listaObjetos, alerta, remover, objeto, editarObjeto,
-                acaoCadastrar, handleChange, novoObjeto, exibirForm, setExibirForm
-            }
-        }>
-            <Carregando><Tabela/></Carregando>
-            <Formulario />
-        </CategoriaContext.Provider>
-   )
+    }>
+        <Tabela/>
+        <Formulario/>
+    </CategoriaContext.Provider>
+)
 }
 
 export default Categoria;

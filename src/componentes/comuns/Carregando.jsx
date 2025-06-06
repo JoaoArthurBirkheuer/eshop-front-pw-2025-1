@@ -1,17 +1,20 @@
 import Spinner from 'react-bootstrap/Spinner';
 
-export default function Carregando(props) {
-    return (
-        <>
-            {
-                !props.carregando ? props.children :
-                    <div className="d-flex align-items-center m-5">
-                        <strong role="status">Carregando...</strong>
-                        <Spinner animation="border" size="sm" variant="primary" />
-                        <Spinner animation="border" variant="primary" />
+const Carregando = ({carregando, children}) => {
 
-                    </div>
-            }
+    return(
+        <>
+        {carregando ? (
+            <div className="d-flex justify-content-center">
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Carregando...</span>
+                </Spinner>
+            </div>
+        ) : (
+            children
+        )}
         </>
     )
 }
+
+export default Carregando;
